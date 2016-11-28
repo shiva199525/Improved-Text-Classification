@@ -17,98 +17,45 @@
 int *A,*B,*C,*D,*E,*F,*G,*H,*I,*J,*K,*L,*M ,*N,*O,*P,*Q ,*R,*S,*T,*U,*V,*W,*X,*Y,*Z,*Blank;
 
 char *kernel_ptr, *source_ptr;
-//char *kernel_ptr1;
+char *project_path= "/Users/anoja/Documents/Project2/Project2/";
 
 void initialize(){
-     A = (int*)malloc(sizeof(int)*LIST_SIZE);
-     B = (int*)malloc(sizeof(int)*LIST_SIZE);
-     C = (int*)malloc(sizeof(int)*LIST_SIZE);
-     D = (int*)malloc(sizeof(int)*LIST_SIZE);
-     E = (int*)malloc(sizeof(int)*LIST_SIZE);
-     F = (int*)malloc(sizeof(int)*LIST_SIZE);
-     G = (int*)malloc(sizeof(int)*LIST_SIZE);
-     H = (int*)malloc(sizeof(int)*LIST_SIZE);
-     I = (int*)malloc(sizeof(int)*LIST_SIZE);
-     J = (int*)malloc(sizeof(int)*LIST_SIZE);
-     K = (int*)malloc(sizeof(int)*LIST_SIZE);
-     L = (int*)malloc(sizeof(int)*LIST_SIZE);
-     M = (int*)malloc(sizeof(int)*LIST_SIZE);
-     N = (int*)malloc(sizeof(int)*LIST_SIZE);
-     O = (int*)malloc(sizeof(int)*LIST_SIZE);
-     P = (int*)malloc(sizeof(int)*LIST_SIZE);
-     Q = (int*)malloc(sizeof(int)*LIST_SIZE);
-     R = (int*)malloc(sizeof(int)*LIST_SIZE);
-     S = (int*)malloc(sizeof(int)*LIST_SIZE);
-     T = (int*)malloc(sizeof(int)*LIST_SIZE);
-     U = (int*)malloc(sizeof(int)*LIST_SIZE);
-     V = (int*)malloc(sizeof(int)*LIST_SIZE);
-     W = (int*)malloc(sizeof(int)*LIST_SIZE);
-     X = (int*)malloc(sizeof(int)*LIST_SIZE);
-     Y = (int*)malloc(sizeof(int)*LIST_SIZE);
-     Z = (int*)malloc(sizeof(int)*LIST_SIZE);
-     Blank = (int*)malloc(sizeof(int)*LIST_SIZE);
+    A = (int*)malloc(sizeof(int)*LIST_SIZE);
+    B = (int*)malloc(sizeof(int)*LIST_SIZE);
+    C = (int*)malloc(sizeof(int)*LIST_SIZE);
+    D = (int*)malloc(sizeof(int)*LIST_SIZE);
+    E = (int*)malloc(sizeof(int)*LIST_SIZE);
+    F = (int*)malloc(sizeof(int)*LIST_SIZE);
+    G = (int*)malloc(sizeof(int)*LIST_SIZE);
+    H = (int*)malloc(sizeof(int)*LIST_SIZE);
+    I = (int*)malloc(sizeof(int)*LIST_SIZE);
+    J = (int*)malloc(sizeof(int)*LIST_SIZE);
+    K = (int*)malloc(sizeof(int)*LIST_SIZE);
+    L = (int*)malloc(sizeof(int)*LIST_SIZE);
+    M = (int*)malloc(sizeof(int)*LIST_SIZE);
+    N = (int*)malloc(sizeof(int)*LIST_SIZE);
+    O = (int*)malloc(sizeof(int)*LIST_SIZE);
+    P = (int*)malloc(sizeof(int)*LIST_SIZE);
+    Q = (int*)malloc(sizeof(int)*LIST_SIZE);
+    R = (int*)malloc(sizeof(int)*LIST_SIZE);
+    S = (int*)malloc(sizeof(int)*LIST_SIZE);
+    T = (int*)malloc(sizeof(int)*LIST_SIZE);
+    U = (int*)malloc(sizeof(int)*LIST_SIZE);
+    V = (int*)malloc(sizeof(int)*LIST_SIZE);
+    W = (int*)malloc(sizeof(int)*LIST_SIZE);
+    X = (int*)malloc(sizeof(int)*LIST_SIZE);
+    Y = (int*)malloc(sizeof(int)*LIST_SIZE);
+    Z = (int*)malloc(sizeof(int)*LIST_SIZE);
+    Blank = (int*)malloc(sizeof(int)*LIST_SIZE);
     
     for(int i = 0; i < LIST_SIZE; i++) {
         
         if(i%2 == 0){
             A[i] = 1;
-         /* B[i] = 1;
-            C[i] = 1;
-            D[i] = 1;
-            E[i] = 1;
-            F[i] = 1;
-            G[i] = 1;
-            H[i] = 1;
-            I[i] = 1;
-            J[i] = 1;
-            K[i] = 1;
-            L[i] = 1;
-            M[i] = 1;
-            N[i] = 1;
-            O[i] = 1;
-            P[i] = 1;
-            Q[i] = 1;
-            R[i] = 1;
-            S[i] = 1;
-            T[i] = 1;
-            U[i] = 1;
-            V[i] = 1;
-            W[i] = 1;
-            X[i] = 1;
-            Y[i] = 1;
-            Z[i] = 1;
-            Blank[i] = 1;
-            */
+            
         } else{
             
             A[i] = -1;
-        /*  B[i] = -1;
-            C[i] = -1;
-            D[i] = -1;
-            E[i] = -1;
-            F[i] = -1;
-            G[i] = -1;
-            H[i] = -1;
-            I[i] = -1;
-            J[i] = -1;
-            K[i] = -1;
-            L[i] = -1;
-            M[i] = -1;
-            N[i] = -1;
-            O[i] = -1;
-            P[i] = -1;
-            Q[i] = -1;
-            R[i] = -1;
-            S[i] = -1;
-            T[i] = -1;
-            U[i] = -1;
-            V[i] = -1;
-            W[i] = -1;
-            X[i] = -1;
-            Y[i] = -1;
-            Z[i] = -1;
-            Blank[i] = -1;
-            */
         }
     }
 }
@@ -151,16 +98,21 @@ size_t read_kernel(char* file_path){
     
     return source_size; // this sould return file size
 }
-
+int ngram_count=0;
+char ngram_tempchar[10];
+int N_GRAM=0;
 
 long read_source_file(char* file_path){
     long file_size;
     FILE *fpp = fopen(file_path, "r");
-    if (fpp != NULL) {
+    if (fpp != NULL)
+    {
         /* Go to the end of the file. */
-        if (fseek(fpp, 0L, SEEK_END) == 0) {
+        if (fseek(fpp, 0L, SEEK_END) == 0)
+        {
             /* Get the size of the file. */
-            long bufsize = ftell(fpp);
+            long bufsize = ftell(fpp);  //current file position
+            //printf("bufsize=%ld",bufsize);
             file_size = bufsize;
             if (bufsize == -1) { printf("Error-1");/* Error */ }
             
@@ -168,54 +120,206 @@ long read_source_file(char* file_path){
             source_ptr = malloc(sizeof(char) * (bufsize + 1));
             
             /* Go back to the start of the file. */
-            if (fseek(fpp, 0L, SEEK_SET) != 0) { printf("Error-2");/* Error */ }
+            if (fseek(fpp, 0L, SEEK_SET) != 0)
+            { printf("Error-2");/* Error */ }
             
             /* Read the entire file into memory. */
-            size_t newLen = fread(source_ptr, sizeof(char), bufsize, fpp);
+            //size_t newLen = fread(source_ptr, sizeof(char), bufsize, fpp);
             //printf("%zu \n",newLen);
-            if ( ferror( fpp ) != 0 ) {
-                fputs("Error reading file", stderr);
-            } else {
-                source_ptr[newLen++] = '\0'; /* Just to be safe. */
+            int i=0;
+            while(!feof(fpp))
+            {
+                char ch = fgetc(fpp);
+                ngram_count = 0;
+                ngram_tempchar[10] = "\0";
+                if(ch != 10 && ch != 13 && ch != '\0')
+                {
+                    source_ptr[i] += ch;
+                    if(ch != 32) // if not space
+                    {
+                        ngram_tempchar[ngram_count] = ch;
+                        ngram_count++;
+                    }
+                    else
+                        N_GRAM = ngram_count;
+                }
+                i++;
+                if ( ferror( fpp ) != 0 )  fputs("Error reading file", stderr);
+                else source_ptr[i] = '\0'; /* Just to be safe. */
+                source_ptr[i]='\0';
             }
             
         }
         fclose(fpp);
     }
-
+    
     return file_size; // this sould return file size
 }
-
 //------------------------------------------------------------------------------------------------------------------------------
 
-int* exe(char* file_path){
+int* exe(char* file_path)
+{
     
-    size_t kernel_size = read_kernel("/Users/neelvekaria/Documents/OpenCL/sample4/sample4/vector_add_kernel.cl");
-
+    size_t kernel_size = read_kernel("/Users/anoja/Documents/Project2/Project2/vector_add_kernel.cl");
+    //size_t kernel_size = read_kernel("/Users/neelvekaria/Documents/OpenCL/sample4/sample4/vector_add_kernel.cl");
+    N_GRAM=0;
     long file_size = read_source_file(file_path);
-    
-    printf("Source ->\n");
-//    for (int n=0; n<file_size; n++)  printf("%c", source_ptr[n]);
-    
-    char source_ptr2[(file_size - 2 )*3];
+    char source_ptr2[(file_size - (N_GRAM-1) )*N_GRAM];
     int counter = 0;
-    for (int n = 0; n < file_size - 2 ; n++ ){
-        if(source_ptr[n]!='\n'){
-        source_ptr2[counter] = source_ptr[n];
-        counter++;
-        source_ptr2[counter] = source_ptr[n+1];
-        counter++;
-        source_ptr2[counter] = source_ptr[n+2];
-        counter++;
-        }
+
+    switch(N_GRAM)
+    {
+        case 1:
+                for (int n = 0; n < file_size - (N_GRAM-1) ; n++ )
+                {
+                    if(source_ptr[n]!='\n')
+                    {
+                        source_ptr2[counter] = source_ptr[n];
+                        counter++;
+                    }
+                }
+                break;
+        case 2:
+                printf("Source ->\n");
+                for (int n = 0; n < file_size - (N_GRAM-1) ; n++ )
+                {
+                    if(source_ptr[n]!='\n')
+                    {
+                    source_ptr2[counter] = source_ptr[n];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+1];
+                    counter++;
+                    }
+                }
+                break;
+        case 3:
+                printf("Source ->\n");
+                for (int n = 0; n < file_size - (N_GRAM-1) ; n++ )
+                {
+                    if(source_ptr[n]!='\n')
+                    {
+                        source_ptr2[counter] = source_ptr[n];
+                        counter++;
+                        source_ptr2[counter] = source_ptr[n+1];
+                        counter++;
+                        source_ptr2[counter] = source_ptr[n+2];
+                        counter++;
+                    }
+                }
+            break;
+        case 4:
+            printf("Source ->\n");
+            for (int n = 0; n < file_size - (N_GRAM-1) ; n++ )
+            {
+                if(source_ptr[n]!='\n')
+                {
+                    source_ptr2[counter] = source_ptr[n];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+1];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+2];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+3];
+                    counter++;
+                }
+            }
+            break;
+        case 5:
+            printf("Source ->\n");
+            for (int n = 0; n < file_size - (N_GRAM-1) ; n++ )
+            {
+                if(source_ptr[n]!='\n')
+                {
+                    source_ptr2[counter] = source_ptr[n];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+1];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+2];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+3];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+4];
+                    counter++;
+                }
+            }
+            break;
+        case 6:
+            printf("Source ->\n");
+            for (int n = 0; n < file_size - (N_GRAM-1) ; n++ )
+            {
+                if(source_ptr[n]!='\n')
+                {
+                    source_ptr2[counter] = source_ptr[n];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+1];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+2];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+3];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+4];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+5];
+                    counter++;
+                }
+            }
+            break;
+        case 7:
+            printf("Source ->\n");
+            for (int n = 0; n < file_size - (N_GRAM-1) ; n++ )
+            {
+                if(source_ptr[n]!='\n')
+                {
+                    source_ptr2[counter] = source_ptr[n];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+1];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+2];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+3];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+4];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+5];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+6];
+                    counter++;
+                }
+            }
+            break;
+        case 8:
+            printf("Source ->\n");
+            for (int n = 0; n < file_size - (N_GRAM-1) ; n++ )
+            {
+                if(source_ptr[n]!='\n')
+                {
+                    source_ptr2[counter] = source_ptr[n];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+1];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+2];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+3];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+4];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+5];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+6];
+                    counter++;
+                    source_ptr2[counter] = source_ptr[n+7];
+                    counter++;
+
+                }
+            }
+            break;
+        default: break;
+
     }
     
-    printf("\nSource 1 ->\n");
-//    for (int n =0; n< (file_size - 2 ) * 3 ;n++  )  printf("%c", source_ptr2[n]);
+    int *spt[(file_size - (N_GRAM-1) )*N_GRAM];
     
-    int *spt[(file_size - 2 )*3];
-    
-    for(int i=0; i< (file_size - 2 )*3; i++){
+    for(int i=0; i< (file_size - (N_GRAM-1) )*N_GRAM; i++){
         //    printf("???%d??", spt[i]);
         
         switch(source_ptr2[i]){
@@ -383,7 +487,7 @@ int* exe(char* file_path){
     for(int i=0; i< LIST_SIZE; i++){
         //printf("\nTemp Sum -> %d ", temp[i]);
         //printf("\nTotal Sum-> %d\n", out[i]);
-      //  printf(".");
+        //  printf(".");
         
     }
     
@@ -394,9 +498,9 @@ int* exe(char* file_path){
     clFlush(command_queue);
     clFinish(command_queue);
     
-  //  for(int i=0; i< file_size-2; i++){
-        clReleaseKernel(kernel);
-  //  }
+    //  for(int i=0; i< file_size-2; i++){
+    clReleaseKernel(kernel);
+    //  }
     
     clReleaseProgram(program);
     clReleaseMemObject(in0_mem_obj);
@@ -407,7 +511,7 @@ int* exe(char* file_path){
     clReleaseCommandQueue(command_queue);
     clReleaseContext(context);
     
-      return out;
+    return out;
     
     //free(in0);
     //free(in1);
@@ -421,37 +525,37 @@ int* exe(char* file_path){
 
 int dotProduct(int *in1, int *in2,int *in3, int *in4,int *in5, int *in6, int *in7, int *in8, int *testVector ){
     
-//    for(int i=0; i < 1000; i++) printf("\n In1 -->%d In2 -->%d TestVector -->%d ", in1[i],in2[i],testVector[i]);
+    //    for(int i=0; i < 1000; i++) printf("\n In1 -->%d In2 -->%d TestVector -->%d ", in1[i],in2[i],testVector[i]);
     
-//    size_t kernel_size1 = read_kernel("/Users/neelvekaria/Documents/OpenCL/sample4/sample4/dotkernel.cl");
+    //    size_t kernel_size1 = read_kernel("/Users/neelvekaria/Documents/OpenCL/sample4/sample4/dotkernel.cl");
     
     
     // Read output memory buffer on the device to the local variable C
-   
+    
     double dot1=0 , dot2=0, dot3=0 , dot4=0 , dot5=0 , dot6=0 , dot7=0 , dot8=0 , out1=0, out2=0, out3=0 , out4=0 , out5=0 , out6=0, out7=0, out8=0, testVector2=0;
     /*
-    int *dot1 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *dot2 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *dot3 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *dot4 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *dot5 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *dot6 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *dot7 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *dot8 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *out1 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *out2 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *out3 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *out4 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *out5 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *out6 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *out7 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *out8 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *testVector2 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-
-    */
+     int *dot1 =  (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *dot2 = (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *dot3 =  (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *dot4 =  (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *dot5 =  (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *dot6 =  (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *dot7 = (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *dot8 = (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *out1 = (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *out2 =  (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *out3 = (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *out4 =  (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *out5 = (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *out6 =  (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *out7 = (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *out8 = (int*)malloc(sizeof(int)*LIST_SIZE);
+     int *testVector2 =  (int*)malloc(sizeof(int)*LIST_SIZE);
+     
+     */
     
     for(int i =0; i<LIST_SIZE; i++){
-    
+        
         dot1 += in1[i] * testVector[i];
         dot2 += in2[i] * testVector[i];
         dot3 += in3[i] * testVector[i];
@@ -460,7 +564,7 @@ int dotProduct(int *in1, int *in2,int *in3, int *in4,int *in5, int *in6, int *in
         dot6 += in6[i] * testVector[i];
         dot7 += in7[i] * testVector[i];
         dot8 += in8[i] * testVector[i];
-
+        
         out1 += in1[i] * in1[i];
         out2 += in2[i] * in2[i];
         out3 += in3[i] * in3[i];
@@ -473,36 +577,16 @@ int dotProduct(int *in1, int *in2,int *in3, int *in4,int *in5, int *in6, int *in
         testVector2 += testVector[i] * testVector[i];
     }
     
-    /*
-    dot1=fabs(dot1);
-    dot2=fabs(dot2);
-    dot3=fabs(dot3);
-    dot4=fabs(dot4);
-    dot5=fabs(dot5);
-    dot6=fabs(dot6);
-    dot7=fabs(dot7);
-    dot8=fabs(dot8);
-    
-    out1=fabs(out1);
-    out2=fabs(out2);
-    out3=fabs(out3);
-    out4=fabs(out4);
-    out5=fabs(out5);
-    out6=fabs(out6);
-    out7=fabs(out7);
-    out8=fabs(out8);
-    
-    testVector2=fabs(testVector2);
-    */
+
     
     double static ans[8];
     double final=0;
     int num=0;
     
     printf("\ndot1 --> %f",dot1);
-//    printf("\ndot2 --> %d",dot2);
+    //    printf("\ndot2 --> %d",dot2);
     printf("\nout1 --> %f",out1);
-//    printf("\nout2 --> %d",out2);
+    //    printf("\nout2 --> %d",out2);
     printf("\ntestVector --> %f",testVector2);
     
     ans[0] = (double) dot1/(sqrt(out1) * sqrt(testVector2));
@@ -529,13 +613,13 @@ int dotProduct(int *in1, int *in2,int *in3, int *in4,int *in5, int *in6, int *in
     printf("\n\n final --> %f",final);
     printf("\n num --> %d",num);
     
-     return num;
+    return num;
     
 }
 
 
 int main(void) {
-
+    
     initialize();
     randomize(A,LIST_SIZE);
     for (int n =0; n< LIST_SIZE ;n++  ) B[n]=A[n];
@@ -591,7 +675,7 @@ int main(void) {
     for (int n =0; n< LIST_SIZE ;n++  ) Blank[n]=Z[n];
     randomize(Blank,LIST_SIZE);
     
-
+    
     //for (int n =0; n< LIST_SIZE ;n++  ) printf(" (A,B,C)= %d %d %d\n",A[n],B[n],C[n]);
     
     int *out0 = (int*)malloc(sizeof(int)*LIST_SIZE);
@@ -613,11 +697,13 @@ int main(void) {
     for(int w=0; w<8; w++)
     {
         path[0] = '\0';
-        strcat(path, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/train1/");
+        strcat(path, "/Users/anoja/Documents/Project2/Project2/train1/");
+
+       // strcat(path, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/train1/");
         strcat(path, train[w]);
         strcat(path, ".txt");
         printf("Loaded traning file %s \n", path);
-     //   file_size = read_source_file(path);
+        //   file_size = read_source_file(path);
         out0 = exe(path);
         switch (w) {
             case 0:
@@ -670,30 +756,30 @@ int main(void) {
                 }
                 break;
                 /*
-            case 8:
-                out0 = exe(path);
-                for(int i=0;i<LIST_SIZE;i++){
-                    testvector[i]=out0[i];
-                    //printf("\nfinal output in OUT1 --> %d", out1[i]);
-                    //printf("\nfinal output in OUT2 --> %d", out2[i]);
-                    //printf("\nfinal output in OUT3 --> %d", out3[i]);
-                    //printf("\nfinal output in OUT4 --> %d\n", out4[i]);
-                }
-                break;
-                */
+                 case 8:
+                 out0 = exe(path);
+                 for(int i=0;i<LIST_SIZE;i++){
+                 testvector[i]=out0[i];
+                 //printf("\nfinal output in OUT1 --> %d", out1[i]);
+                 //printf("\nfinal output in OUT2 --> %d", out2[i]);
+                 //printf("\nfinal output in OUT3 --> %d", out3[i]);
+                 //printf("\nfinal output in OUT4 --> %d\n", out4[i]);
+                 }
+                 break;
+                 */
             default:
                 break;
         }
         
     }
-
+    
     
     char *path1= (char *) calloc(150,sizeof(char));
- //    int *testvector1 = (int*)malloc(sizeof(int)*LIST_SIZE);
+    //    int *testvector1 = (int*)malloc(sizeof(int)*LIST_SIZE);
     char num[100];
     int counter=0;
     double accuracy=0;
-
+    
     for(int w=0; w<8; w++)
     {
         switch (w){
@@ -701,7 +787,8 @@ int main(void) {
                 for(int i=0; i<696; i++)
                 {
                     path1[0] = '\0';
-                    strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    //strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    strcat(path1, "/Users/anoja/Documents/Project2/Project2/test/");
                     strcat(path1, test[w]);
                     sprintf(num,"%d",i);
                     strcat(path1, num);
@@ -709,7 +796,7 @@ int main(void) {
                     printf("\nLoaded testing file %s \n", path1);
                     //   file_size = read_source_file(path);
                     out0 = exe(path1);
-                
+                    
                     // out0 = exe(path1);
                     for(int i=0;i<LIST_SIZE;i++){
                         testvector[i]=out0[i];
@@ -728,7 +815,8 @@ int main(void) {
                 for(int i=0; i<121; i++)
                 {
                     path1[0] = '\0';
-                    strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    //strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    strcat(path1, "/Users/anoja/Documents/Project2/Project2/test/");
                     strcat(path1, test[w]);
                     sprintf(num,"%d",i);
                     strcat(path1, num);
@@ -754,7 +842,8 @@ int main(void) {
                 for(int i=0; i<1083; i++)
                 {
                     path1[0] = '\0';
-                    strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    //strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    strcat(path1, "/Users/anoja/Documents/Project2/Project2/test/");
                     strcat(path1, test[w]);
                     sprintf(num,"%d",i);
                     strcat(path1, num);
@@ -779,7 +868,8 @@ int main(void) {
                 for(int i=0; i<10; i++)
                 {
                     path1[0] = '\0';
-                    strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    //strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    strcat(path1, "/Users/anoja/Documents/Project2/Project2/test/");
                     strcat(path1, test[w]);
                     sprintf(num,"%d",i);
                     strcat(path1, num);
@@ -805,7 +895,8 @@ int main(void) {
                 for(int i=0; i<81; i++)
                 {
                     path1[0] = '\0';
-                    strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    strcat(path1, "/Users/anoja/Documents/Project2/Project2/test/");
+                    //strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
                     strcat(path1, test[w]);
                     sprintf(num,"%d",i);
                     strcat(path1, num);
@@ -831,7 +922,8 @@ int main(void) {
                 for(int i=0; i<87; i++)
                 {
                     path1[0] = '\0';
-                    strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    strcat(path1, "/Users/anoja/Documents/Project2/Project2/test/");
+                    //strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
                     strcat(path1, test[w]);
                     sprintf(num,"%d",i);
                     strcat(path1, num);
@@ -857,7 +949,8 @@ int main(void) {
                 for(int i=0; i<36; i++)
                 {
                     path1[0] = '\0';
-                    strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    strcat(path1, "/Users/anoja/Documents/Project2/Project2/test/");
+                    //strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
                     strcat(path1, test[w]);
                     sprintf(num,"%d",i);
                     strcat(path1, num);
@@ -883,7 +976,8 @@ int main(void) {
                 for(int i=0; i<75; i++)
                 {
                     path1[0] = '\0';
-                    strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
+                    strcat(path1, "/Users/anoja/Documents/Project2/Project2/test/");
+                   // strcat(path1, "/Users/neelvekaria/Documents/OpenCL/sample4/sample4/test/");
                     strcat(path1, test[w]);
                     sprintf(num,"%d",i);
                     strcat(path1, num);
@@ -908,14 +1002,14 @@ int main(void) {
             default:
                 break;
                 
-      //  printf("----------------Testing-------------------");
-
-    }
+                //  printf("----------------Testing-------------------");
+                
+        }
     }
     
     accuracy=(double)(counter/2201.0)*100.0;
     printf("\n\nFinal Accuracy ->%f\n",accuracy);
-
+    
     free(A);
     free(B);
     free(C);
@@ -953,4 +1047,4 @@ int main(void) {
     free(testvector);
     
     
-  }
+}
