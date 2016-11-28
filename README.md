@@ -1,0 +1,8 @@
+# Improved-Text-Classification
+
+Problem Description: This project aims to classify News articles using hyperdimensional (HD) computing. You should improve the classification accuracy of your algorithm implemented in Mini Project 2 using various techniques suggested here and designed by yourself:
+P1. You have 2 parameters to play with and increase the classification accuracy: D which is the dimensionally of vectors, and N which is the size of N-gram used in your encoder. Find the best pair of {D, N} that maximized the classification accuracy.
+P2. There are 8 news topics for the classification, hence the associative memory in P1 has 8 pre-stored vectors, or 8 rows. In this part, your associative memory will have S rows (S>8), and each rows represents a single training text. Test the accuracy of this part with the best parameters you obtained from P1.
+P3. Instead of using a fixed N-gram, in this part you should use different n-grams based on the size of a word. Basically, for a training sample you should add all n-grams (separated by space) available in the news article. Here is an example: “The book is ready”V = 3-gram + 4-gram + 2-gram + 5-gram. V is the vector to be stored in the associative memory, 3-gram is the vector representing “The”, 4-gram is the vector representing “book”, etc.
+P4. Design a new encoder that gives you the highest accuracy. You may use a mixture of what you have learned so far or design a totally new encoding.
+Report: For each part, write a brief summary of your findings in one paragraph. Draw a single figure that clearly compares the accuracy of P1, P2, P3, P4. Add the detail parameters and number to the figure accordingly.
