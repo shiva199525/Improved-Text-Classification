@@ -153,14 +153,21 @@ size_t read_kernel(char* file_path){
 }
 
 
+int ngram_count = 0;
+char ngram_tempchar[10] = "\0";
+int N_GRAM =0; // part3 project3
+
 long read_source_file(char* file_path){
     long file_size;
     FILE *fpp = fopen(file_path, "r");
-    if (fpp != NULL) {
+    if (fpp != NULL)
+    {
         /* Go to the end of the file. */
-        if (fseek(fpp, 0L, SEEK_END) == 0) {
+        if (fseek(fpp, 0L, SEEK_END) == 0)
+        {
             /* Get the size of the file. */
-            long bufsize = ftell(fpp);
+            long bufsize = ftell(fpp);  //current file position
+            //printf("bufsize=%ld",bufsize);
             file_size = bufsize;
             if (bufsize == -1) { printf("Error-1");/* Error */ }
             
@@ -168,23 +175,43 @@ long read_source_file(char* file_path){
             source_ptr = malloc(sizeof(char) * (bufsize + 1));
             
             /* Go back to the start of the file. */
-            if (fseek(fpp, 0L, SEEK_SET) != 0) { printf("Error-2");/* Error */ }
+            if (fseek(fpp, 0L, SEEK_SET) != 0)
+            { printf("Error-2");/* Error */ }
             
             /* Read the entire file into memory. */
-            size_t newLen = fread(source_ptr, sizeof(char), bufsize, fpp);
+            //size_t newLen = fread(source_ptr, sizeof(char), bufsize, fpp);
             //printf("%zu \n",newLen);
-            if ( ferror( fpp ) != 0 ) {
-                fputs("Error reading file", stderr);
-            } else {
-                source_ptr[newLen++] = '\0'; /* Just to be safe. */
+            int i=0;
+            while(!feof(fpp))
+            {
+                char ch = fgetc(fpp);
+                ngram_count = 0;
+                ngram_tempchar[10] = "\0";
+                if(ch != 10 && ch != 13 && ch != '\0')
+                {
+                    source_ptr[i] += ch;
+                    if(ch != 32) // if not space
+                    {
+                        ngram_tempchar[ngram_count] = ch;
+                        ngram_count++;
+                    }
+                    else
+                    {
+                        N_GRAM = ngram_count;
+                    }
+                }
+                i++;
             }
+            source_ptr[i]='\0';
             
         }
         fclose(fpp);
     }
-
+    
     return file_size; // this sould return file size
 }
+//------------------------------------------------------------------------------------------------------------------------------
+
 
 //------------------------------------------------------------------------------------------------------------------------------
 
