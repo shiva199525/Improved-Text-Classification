@@ -160,13 +160,15 @@ long read_source_file(char* file_path){
 int* exe(char* file_path)
 {
     
-    size_t kernel_size = read_kernel("/Users/anoja/Documents/Project2/Project2/vector_add_kernel.cl");
+    size_t kernel_size = read_kernel("/Users/anoja/Documents/Project2/Project2/my_kernel.cl");
     //size_t kernel_size = read_kernel("/Users/neelvekaria/Documents/OpenCL/sample4/sample4/vector_add_kernel.cl");
     N_GRAM=0;
     long file_size = read_source_file(file_path);
     char source_ptr2[(file_size - (N_GRAM-1) )*N_GRAM];
     int counter = 0;
 
+    int *in0,*in1,*in2,*in3,*in4,*in5,*in6,*in7;
+    
     switch(N_GRAM)
     {
         case 1:
@@ -178,6 +180,7 @@ int* exe(char* file_path)
                         counter++;
                     }
                 }
+                in0=(int*)malloc(sizeof(int)*LIST_SIZE);
                 break;
         case 2:
                 printf("Source ->\n");
@@ -191,6 +194,8 @@ int* exe(char* file_path)
                     counter++;
                     }
                 }
+                in0=(int*)malloc(sizeof(int)*LIST_SIZE);
+                in1=(int*)malloc(sizeof(int)*LIST_SIZE);
                 break;
         case 3:
                 printf("Source ->\n");
@@ -206,7 +211,10 @@ int* exe(char* file_path)
                         counter++;
                     }
                 }
-            break;
+                in0=(int*)malloc(sizeof(int)*LIST_SIZE);
+                in1=(int*)malloc(sizeof(int)*LIST_SIZE);
+                in2=(int*)malloc(sizeof(int)*LIST_SIZE);
+                break;
         case 4:
             printf("Source ->\n");
             for (int n = 0; n < file_size - (N_GRAM-1) ; n++ )
@@ -223,6 +231,10 @@ int* exe(char* file_path)
                     counter++;
                 }
             }
+            in0=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in1=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in2=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in3=(int*)malloc(sizeof(int)*LIST_SIZE);
             break;
         case 5:
             printf("Source ->\n");
@@ -242,6 +254,11 @@ int* exe(char* file_path)
                     counter++;
                 }
             }
+            in0=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in1=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in2=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in3=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in4=(int*)malloc(sizeof(int)*LIST_SIZE);
             break;
         case 6:
             printf("Source ->\n");
@@ -263,6 +280,12 @@ int* exe(char* file_path)
                     counter++;
                 }
             }
+            in0=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in1=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in2=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in3=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in4=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in5=(int*)malloc(sizeof(int)*LIST_SIZE);
             break;
         case 7:
             printf("Source ->\n");
@@ -286,6 +309,13 @@ int* exe(char* file_path)
                     counter++;
                 }
             }
+            in0=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in1=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in2=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in3=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in4=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in5=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in6=(int*)malloc(sizeof(int)*LIST_SIZE);
             break;
         case 8:
             printf("Source ->\n");
@@ -312,6 +342,14 @@ int* exe(char* file_path)
 
                 }
             }
+            in0=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in1=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in2=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in3=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in4=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in5=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in6=(int*)malloc(sizeof(int)*LIST_SIZE);
+            in7=(int*)malloc(sizeof(int)*LIST_SIZE);
             break;
         default: break;
 
@@ -408,6 +446,18 @@ int* exe(char* file_path)
                                         LIST_SIZE * sizeof(int), NULL, &ret);
     cl_mem in2_mem_obj = clCreateBuffer(context, CL_MEM_READ_ONLY,
                                         LIST_SIZE * sizeof(int), NULL, &ret);
+    cl_mem in3_mem_obj = clCreateBuffer(context, CL_MEM_READ_ONLY,
+                                        LIST_SIZE * sizeof(int), NULL, &ret);
+    cl_mem in4_mem_obj = clCreateBuffer(context, CL_MEM_READ_ONLY,
+                                        LIST_SIZE * sizeof(int), NULL, &ret);
+    cl_mem in5_mem_obj = clCreateBuffer(context, CL_MEM_READ_ONLY,
+                                        LIST_SIZE * sizeof(int), NULL, &ret);
+    cl_mem in6_mem_obj = clCreateBuffer(context, CL_MEM_READ_ONLY,
+                                        LIST_SIZE * sizeof(int), NULL, &ret);
+    cl_mem in7_mem_obj = clCreateBuffer(context, CL_MEM_READ_ONLY,
+                                        LIST_SIZE * sizeof(int), NULL, &ret);
+    cl_mem in8_mem_obj = clCreateBuffer(context, CL_MEM_READ_ONLY,
+                                        LIST_SIZE * sizeof(int), NULL, &ret);
     cl_mem out_mem_obj = clCreateBuffer(context, CL_MEM_READ_WRITE,
                                         LIST_SIZE * sizeof(int), NULL, &ret);
     cl_mem temp_mem_obj = clCreateBuffer(context, CL_MEM_WRITE_ONLY,
@@ -421,8 +471,7 @@ int* exe(char* file_path)
     clBuildProgram(program, 1, &device_id, NULL, NULL, NULL);
     
     // Create the OpenCL kernel
-    cl_kernel kernel = NULL;
-    
+    cl_kernel kernel[8] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
     // Display the result to the screen
     //    long total=0;
     counter = 0;
@@ -430,53 +479,332 @@ int* exe(char* file_path)
     int *out = (int*)malloc(sizeof(int)*LIST_SIZE);
     int *temp = (int*)malloc(sizeof(int)*LIST_SIZE);
     
-    
-    int *in0 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *in1 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    int *in2 = (int*)malloc(sizeof(int)*LIST_SIZE);
-    
-    
-    for(int i=0;i<file_size-2;i++){
-        //for(int i=0;i<(file_size - 2 );i++){
-        for(int j=1;j<=3;j++){
-            //    printf("\ngroup %d: %c -> %d\n",i, source_ptr2[counter], *in0);
-            in0=spt[counter-2];
-            in1=spt[counter-1];
-            in2=spt[counter];
-            counter++;
-            
-            clEnqueueWriteBuffer(command_queue, in0_mem_obj, CL_TRUE, 0,
-                                 LIST_SIZE * sizeof(int), in0, 0, NULL, NULL);
-            clEnqueueWriteBuffer(command_queue, in1_mem_obj, CL_TRUE, 0,
-                                 LIST_SIZE * sizeof(int), in1, 0, NULL, NULL);
-            clEnqueueWriteBuffer(command_queue, in2_mem_obj, CL_TRUE, 0,
-                                 LIST_SIZE * sizeof(int), in2, 0, NULL, NULL);
-        }
-        
-        kernel = clCreateKernel(program, "vector_add", &ret);
-        
-        clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&in0_mem_obj);
-        clSetKernelArg(kernel, 1, sizeof(cl_mem), (void *)&in1_mem_obj);
-        clSetKernelArg(kernel, 2, sizeof(cl_mem), (void *)&in2_mem_obj);
-        clSetKernelArg(kernel, 3, sizeof(cl_mem), (void *)&out_mem_obj);
-        clSetKernelArg(kernel, 4, sizeof(cl_mem), (void *)&temp_mem_obj);
-        
-        // Execute the OpenCL kernel on the list
-        size_t global_item_size = LIST_SIZE; // Process the entire lists
-        size_t local_item_size = 64; // Divide work items into groups of 64
-        
-        clEnqueueNDRangeKernel(command_queue, kernel, 1, NULL,
-                               &global_item_size, &local_item_size, 0, NULL, NULL);
-        
-        /*    // Read the memory buffer C on the device to the local variable C
-         clEnqueueReadBuffer(command_queue, out_mem_obj, CL_TRUE, 0,
-         LIST_SIZE * sizeof(int), out, 0, NULL, NULL);
-         
-         clEnqueueReadBuffer(command_queue, temp_mem_obj, CL_TRUE, 0,
-         LIST_SIZE * sizeof(int), temp, 0, NULL, NULL);
-         */
-        
-    }
+            switch(N_GRAM)
+            {
+                case 1:
+                    for(int i=0;i<file_size-(N_GRAM-1);i++)
+                    {
+                        for(int j=1;j<=N_GRAM;j++)
+                        {
+                            in0=spt[counter];
+                            counter++;
+                            clEnqueueWriteBuffer(command_queue, in0_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in0, 0, NULL, NULL);
+                        }
+                        
+                        kernel[0] = clCreateKernel(program, "1gram", &ret);
+                        
+                        clSetKernelArg(kernel[0], 0, sizeof(cl_mem), (void *)&in0_mem_obj);
+                        clSetKernelArg(kernel[0], 1, sizeof(cl_mem), (void *)&out_mem_obj);
+                        clSetKernelArg(kernel[0], 2, sizeof(cl_mem), (void *)&temp_mem_obj);
+                        
+                        // Execute the OpenCL kernel on the list
+                        size_t global_item_size = LIST_SIZE; // Process the entire lists
+                        size_t local_item_size = 64; // Divide work items into groups of 64
+                        
+                        clEnqueueNDRangeKernel(command_queue, kernel[0], 1, NULL,
+                                               &global_item_size, &local_item_size, 0, NULL, NULL);
+                    }
+                    break;
+                case 2:
+                    for(int i=0;i<file_size-(N_GRAM-1);i++)
+                    {
+                        for(int j=1;j<=N_GRAM;j++)
+                        {
+                            in0=spt[counter-1];
+                            in1=spt[counter];
+                            counter++;
+                            
+                            clEnqueueWriteBuffer(command_queue, in0_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in0, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in1_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in1, 0, NULL, NULL);
+                        }
+                        
+                        kernel[1] = clCreateKernel(program, "2gram", &ret);
+                        
+                        clSetKernelArg(kernel[1], 0, sizeof(cl_mem), (void *)&in0_mem_obj);
+                        clSetKernelArg(kernel[1], 1, sizeof(cl_mem), (void *)&in1_mem_obj);
+                        clSetKernelArg(kernel[1], 2, sizeof(cl_mem), (void *)&out_mem_obj);
+                        clSetKernelArg(kernel[1], 3, sizeof(cl_mem), (void *)&temp_mem_obj);
+                        
+                        // Execute the OpenCL kernel on the list
+                        size_t global_item_size = LIST_SIZE; // Process the entire lists
+                        size_t local_item_size = 64; // Divide work items into groups of 64
+                        
+                        clEnqueueNDRangeKernel(command_queue, kernel[1], 1, NULL,
+                                               &global_item_size, &local_item_size, 0, NULL, NULL);
+                    }
+                    break;
+                    
+                case 3:
+                    for(int i=0;i<file_size-(N_GRAM-1);i++)
+                    {
+                        for(int j=1;j<=N_GRAM;j++)
+                        {
+                            
+                            in0=spt[counter-2];
+                            in1=spt[counter-1];
+                            in2=spt[counter];
+                            counter++;
+                            
+                            clEnqueueWriteBuffer(command_queue, in0_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in0, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in1_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in1, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in2_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in2, 0, NULL, NULL);
+                        }
+                        
+                        kernel[2] = clCreateKernel(program, "3gram", &ret);
+                        
+                        clSetKernelArg(kernel[2], 0, sizeof(cl_mem), (void *)&in0_mem_obj);
+                        clSetKernelArg(kernel[2], 1, sizeof(cl_mem), (void *)&in1_mem_obj);
+                        clSetKernelArg(kernel[2], 2, sizeof(cl_mem), (void *)&in2_mem_obj);
+                        clSetKernelArg(kernel[2], 3, sizeof(cl_mem), (void *)&out_mem_obj);
+                        clSetKernelArg(kernel[2], 4, sizeof(cl_mem), (void *)&temp_mem_obj);
+                        
+                        // Execute the OpenCL kernel on the list
+                        size_t global_item_size = LIST_SIZE; // Process the entire lists
+                        size_t local_item_size = 64; // Divide work items into groups of 64
+                        
+                        clEnqueueNDRangeKernel(command_queue, kernel[2], 1, NULL,
+                                               &global_item_size, &local_item_size, 0, NULL, NULL);
+                    }
+
+                    break;
+                case 4:
+                    for(int i=0;i<file_size-(N_GRAM-1);i++)
+                    {
+                        for(int j=1;j<=N_GRAM;j++)
+                        {
+                            
+                            in0=spt[counter-3];
+                            in1=spt[counter-2];
+                            in2=spt[counter-1];
+                            in3=spt[counter];
+                            counter++;
+                            
+                            clEnqueueWriteBuffer(command_queue, in0_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in0, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in1_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in1, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in2_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in2, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in3_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in3, 0, NULL, NULL);
+                        }
+                        
+                        kernel[3] = clCreateKernel(program, "4gram", &ret);
+                        
+                        clSetKernelArg(kernel[3], 0, sizeof(cl_mem), (void *)&in0_mem_obj);
+                        clSetKernelArg(kernel[3], 1, sizeof(cl_mem), (void *)&in1_mem_obj);
+                        clSetKernelArg(kernel[3], 2, sizeof(cl_mem), (void *)&in2_mem_obj);
+                        clSetKernelArg(kernel[3], 3, sizeof(cl_mem), (void *)&in3_mem_obj);
+                        clSetKernelArg(kernel[3], 4, sizeof(cl_mem), (void *)&out_mem_obj);
+                        clSetKernelArg(kernel[3], 5, sizeof(cl_mem), (void *)&temp_mem_obj);
+                        
+                        size_t global_item_size = LIST_SIZE;
+                        size_t local_item_size = 64;
+                        
+                        clEnqueueNDRangeKernel(command_queue, kernel[3], 1, NULL,
+                                               &global_item_size, &local_item_size, 0, NULL, NULL);
+                    }
+                    break;
+                case 5:
+                    for(int i=0;i<file_size-(N_GRAM-1);i++)
+                    {
+                        for(int j=1;j<=N_GRAM;j++)
+                        {
+                            in0=spt[counter-4];
+                            in1=spt[counter-3];
+                            in2=spt[counter-2];
+                            in3=spt[counter-1];
+                            in4=spt[counter];
+
+                            counter++;
+                            clEnqueueWriteBuffer(command_queue, in0_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in0, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in1_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in1, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in2_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in2, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in3_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in3, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in4_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in4, 0, NULL, NULL);
+
+                        }
+                        
+                        kernel[4] = clCreateKernel(program, "5gram", &ret);
+                        
+                        clSetKernelArg(kernel[4], 0, sizeof(cl_mem), (void *)&in0_mem_obj);
+                        clSetKernelArg(kernel[4], 1, sizeof(cl_mem), (void *)&in1_mem_obj);
+                        clSetKernelArg(kernel[4], 2, sizeof(cl_mem), (void *)&in2_mem_obj);
+                        clSetKernelArg(kernel[4], 3, sizeof(cl_mem), (void *)&in3_mem_obj);
+                        clSetKernelArg(kernel[4], 4, sizeof(cl_mem), (void *)&in4_mem_obj);
+                        clSetKernelArg(kernel[4], 5, sizeof(cl_mem), (void *)&out_mem_obj);
+                        clSetKernelArg(kernel[4], 6, sizeof(cl_mem), (void *)&temp_mem_obj);
+                        
+                        size_t global_item_size = LIST_SIZE;
+                        size_t local_item_size = 64;
+                        
+                        clEnqueueNDRangeKernel(command_queue, kernel[4], 1, NULL,
+                                               &global_item_size, &local_item_size, 0, NULL, NULL);
+                    }
+                    break;
+                case 6:
+                    for(int i=0;i<file_size-(N_GRAM-1);i++)
+                    {
+                        for(int j=1;j<=N_GRAM;j++)
+                        {
+                            
+                            in0=spt[counter-5];
+                            in1=spt[counter-4];
+                            in2=spt[counter-3];
+                            in3=spt[counter-2];
+                            in4=spt[counter-1];
+                            in5=spt[counter];
+                            counter++;
+                            
+                            clEnqueueWriteBuffer(command_queue, in0_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in0, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in1_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in1, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in2_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in2, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in3_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in3, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in4_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in4, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in5_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in5, 0, NULL, NULL);
+                            
+                        }
+                        kernel[5] = clCreateKernel(program, "6gram", &ret);
+                        clSetKernelArg(kernel[5], 0, sizeof(cl_mem), (void *)&in0_mem_obj);
+                        clSetKernelArg(kernel[5], 1, sizeof(cl_mem), (void *)&in1_mem_obj);
+                        clSetKernelArg(kernel[5], 2, sizeof(cl_mem), (void *)&in2_mem_obj);
+                        clSetKernelArg(kernel[5], 3, sizeof(cl_mem), (void *)&in3_mem_obj);
+                        clSetKernelArg(kernel[5], 4, sizeof(cl_mem), (void *)&in4_mem_obj);
+                        clSetKernelArg(kernel[5], 5, sizeof(cl_mem), (void *)&in5_mem_obj);
+                        clSetKernelArg(kernel[5], 6, sizeof(cl_mem), (void *)&out_mem_obj);
+                        clSetKernelArg(kernel[5], 7, sizeof(cl_mem), (void *)&temp_mem_obj);
+                        
+                        size_t global_item_size = LIST_SIZE;
+                        size_t local_item_size = 64;
+                        
+                        clEnqueueNDRangeKernel(command_queue, kernel[5], 1, NULL,
+                                               &global_item_size, &local_item_size, 0, NULL, NULL);
+                    }
+                    break;
+                case 7:
+                    for(int i=0;i<file_size-(N_GRAM-1);i++)
+                    {
+                        for(int j=1;j<=N_GRAM;j++)
+                        {
+                            
+                            in0=spt[counter-6];
+                            in1=spt[counter-5];
+                            in2=spt[counter-4];
+                            in3=spt[counter-3];
+                            in4=spt[counter-2];
+                            in5=spt[counter-1];
+                            in6=spt[counter];
+                            counter++;
+                            
+                            clEnqueueWriteBuffer(command_queue, in0_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in0, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in1_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in1, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in2_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in2, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in3_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in3, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in4_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in4, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in5_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in5, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in6_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in6, 0, NULL, NULL);
+                            
+                        }
+                        kernel[6] = clCreateKernel(program, "7gram", &ret);
+                        clSetKernelArg(kernel[6], 0, sizeof(cl_mem), (void *)&in0_mem_obj);
+                        clSetKernelArg(kernel[6], 1, sizeof(cl_mem), (void *)&in1_mem_obj);
+                        clSetKernelArg(kernel[6], 2, sizeof(cl_mem), (void *)&in2_mem_obj);
+                        clSetKernelArg(kernel[6], 3, sizeof(cl_mem), (void *)&in3_mem_obj);
+                        clSetKernelArg(kernel[6], 4, sizeof(cl_mem), (void *)&in4_mem_obj);
+                        clSetKernelArg(kernel[6], 5, sizeof(cl_mem), (void *)&in5_mem_obj);
+                        clSetKernelArg(kernel[6], 6, sizeof(cl_mem), (void *)&in6_mem_obj);
+                        clSetKernelArg(kernel[6], 7, sizeof(cl_mem), (void *)&out_mem_obj);
+                        clSetKernelArg(kernel[6], 8, sizeof(cl_mem), (void *)&temp_mem_obj);
+                        
+                        size_t global_item_size = LIST_SIZE;
+                        size_t local_item_size = 64;
+                        
+                        clEnqueueNDRangeKernel(command_queue, kernel[6], 1, NULL,
+                                               &global_item_size, &local_item_size, 0, NULL, NULL);
+                    }
+                    break;
+                
+                case 8:
+                    for(int i=0;i<file_size-(N_GRAM-1);i++)
+                    {
+                        for(int j=1;j<=N_GRAM;j++)
+                        {
+                            
+                            in0=spt[counter-7];
+                            in1=spt[counter-6];
+                            in2=spt[counter-5];
+                            in3=spt[counter-4];
+                            in4=spt[counter-3];
+                            in5=spt[counter-2];
+                            in6=spt[counter-1];
+                            in7=spt[counter];
+                            counter++;
+                            
+                            clEnqueueWriteBuffer(command_queue, in0_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in0, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in1_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in1, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in2_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in2, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in3_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in3, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in4_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in4, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in5_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in5, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in6_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in6, 0, NULL, NULL);
+                            clEnqueueWriteBuffer(command_queue, in7_mem_obj, CL_TRUE, 0,
+                                                 LIST_SIZE * sizeof(int), in7, 0, NULL, NULL);
+                            
+                        }
+                        kernel[7] = clCreateKernel(program, "8gram", &ret);
+                        clSetKernelArg(kernel[7], 0, sizeof(cl_mem), (void *)&in0_mem_obj);
+                        clSetKernelArg(kernel[7], 1, sizeof(cl_mem), (void *)&in1_mem_obj);
+                        clSetKernelArg(kernel[7], 2, sizeof(cl_mem), (void *)&in2_mem_obj);
+                        clSetKernelArg(kernel[7], 3, sizeof(cl_mem), (void *)&in3_mem_obj);
+                        clSetKernelArg(kernel[7], 4, sizeof(cl_mem), (void *)&in4_mem_obj);
+                        clSetKernelArg(kernel[7], 5, sizeof(cl_mem), (void *)&in5_mem_obj);
+                        clSetKernelArg(kernel[7], 6, sizeof(cl_mem), (void *)&in6_mem_obj);
+                        clSetKernelArg(kernel[7], 7, sizeof(cl_mem), (void *)&in7_mem_obj);
+                        clSetKernelArg(kernel[7], 8, sizeof(cl_mem), (void *)&out_mem_obj);
+                        clSetKernelArg(kernel[7], 9, sizeof(cl_mem), (void *)&temp_mem_obj);
+                        
+                        size_t global_item_size = LIST_SIZE;
+                        size_t local_item_size = 64;
+                        
+                        clEnqueueNDRangeKernel(command_queue, kernel[7], 1, NULL,
+                                               &global_item_size, &local_item_size, 0, NULL, NULL);
+                    }
+                    break;
+                    
+                default: break;
+                    
+            }
     
     // Read the memory buffer C on the device to the local variable C
     clEnqueueReadBuffer(command_queue, out_mem_obj, CL_TRUE, 0,
@@ -484,7 +812,9 @@ int* exe(char* file_path)
     
     clEnqueueReadBuffer(command_queue, temp_mem_obj, CL_TRUE, 0,
                         LIST_SIZE * sizeof(int), temp, 0, NULL, NULL);
-    for(int i=0; i< LIST_SIZE; i++){
+   
+    // for(int i=0; i< LIST_SIZE; i++)
+    {
         //printf("\nTemp Sum -> %d ", temp[i]);
         //printf("\nTotal Sum-> %d\n", out[i]);
         //  printf(".");
@@ -498,9 +828,10 @@ int* exe(char* file_path)
     clFlush(command_queue);
     clFinish(command_queue);
     
-    //  for(int i=0; i< file_size-2; i++){
-    clReleaseKernel(kernel);
-    //  }
+    for(int i=0; i< 8; i++)
+    {
+        clReleaseKernel(kernel[i]);
+    }
     
     clReleaseProgram(program);
     clReleaseMemObject(in0_mem_obj);
@@ -510,49 +841,22 @@ int* exe(char* file_path)
     clReleaseMemObject(temp_mem_obj);
     clReleaseCommandQueue(command_queue);
     clReleaseContext(context);
-    
+    free(in0);
+    free(in1);
+    free(in2);
+    free(temp);
     return out;
-    
-    //free(in0);
-    //free(in1);
-    //free(in2);
-    //free(out);
-    //free(temp);
-    
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
-int dotProduct(int *in1, int *in2,int *in3, int *in4,int *in5, int *in6, int *in7, int *in8, int *testVector ){
-    
-    //    for(int i=0; i < 1000; i++) printf("\n In1 -->%d In2 -->%d TestVector -->%d ", in1[i],in2[i],testVector[i]);
-    
-    //    size_t kernel_size1 = read_kernel("/Users/neelvekaria/Documents/OpenCL/sample4/sample4/dotkernel.cl");
+int dotProduct(int *in1, int *in2,int *in3, int *in4,int *in5, int *in6, int *in7, int *in8, int *testVector )
+{
     
     
     // Read output memory buffer on the device to the local variable C
     
     double dot1=0 , dot2=0, dot3=0 , dot4=0 , dot5=0 , dot6=0 , dot7=0 , dot8=0 , out1=0, out2=0, out3=0 , out4=0 , out5=0 , out6=0, out7=0, out8=0, testVector2=0;
-    /*
-     int *dot1 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *dot2 = (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *dot3 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *dot4 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *dot5 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *dot6 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *dot7 = (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *dot8 = (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *out1 = (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *out2 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *out3 = (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *out4 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *out5 = (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *out6 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *out7 = (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *out8 = (int*)malloc(sizeof(int)*LIST_SIZE);
-     int *testVector2 =  (int*)malloc(sizeof(int)*LIST_SIZE);
-     
-     */
     
     for(int i =0; i<LIST_SIZE; i++){
         
@@ -755,18 +1059,6 @@ int main(void) {
                     out8[i]=out0[i];
                 }
                 break;
-                /*
-                 case 8:
-                 out0 = exe(path);
-                 for(int i=0;i<LIST_SIZE;i++){
-                 testvector[i]=out0[i];
-                 //printf("\nfinal output in OUT1 --> %d", out1[i]);
-                 //printf("\nfinal output in OUT2 --> %d", out2[i]);
-                 //printf("\nfinal output in OUT3 --> %d", out3[i]);
-                 //printf("\nfinal output in OUT4 --> %d\n", out4[i]);
-                 }
-                 break;
-                 */
             default:
                 break;
         }
